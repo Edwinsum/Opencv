@@ -1,0 +1,24 @@
+import cv2
+import numpy as np
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+    cv2.circle(frame, (145, 110), 5, (0,0,255), -1)
+    cv2.circle(frame, (453, 105), 5, (0, 0, 255), -1)
+    cv2.circle(frame, (132, 329), 5, (0, 0, 255), -1)
+    cv2.circle(frame, (470, 319), 5, (0, 0, 255), -1)
+
+    pts1 = np.float32([[145, 110], [453, 105], [132, 329], [470, 319]])
+    pts2 = np.float32([[0, 0], [148, 0], [0, 218], [148, 210]])
+    matrix = cv2.getPerspectiveTransform(pts1, pts2)
+    resuit = cv2.warpPerspective(frame, matrix, (148, 210))
+
+    cv2.imshow("frame", frame)
+    cv2.imshow("Transform", resuit)
+    if cv2.waitKey(1) & 0xff == 27:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
